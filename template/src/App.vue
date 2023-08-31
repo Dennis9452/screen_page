@@ -1,11 +1,10 @@
-
-<script setup>
-  import screenTable from '@/components/screenList.vue'
-</script>
 <template>
-  
-    <screenTable />
-  
+  <div> 功能列表 </div>
+  <p class="nav">
+    <router-link to="/screenList"> screenList </router-link> 
+    <router-link to="/playlistCompare"> playlistCompare </router-link>
+  </p>
+  <router-view/>
 </template>
 
 <style lang="scss">
@@ -15,7 +14,20 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+.nav {
+  padding: 30px;
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 10px;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
 }
 
 </style>
