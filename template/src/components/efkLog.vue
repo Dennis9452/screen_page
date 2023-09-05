@@ -1,10 +1,8 @@
 <!-- eslint-disable no-unused-vars -->
 <script setup>
-import axios from 'axios'
 import { View as IconView } from '@element-plus/icons-vue'
-var host = `/office-edge/_search`
 
-import { computed, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 
 const selectedValue = ref('')
 const selectedIndexValue = ref('124b56e0-1c9b-11ee-a399-6f2a78896acd')
@@ -86,7 +84,6 @@ watch(
 })
 
 
-
 function clearParams(){
   textarea.value = ''
   selectedValue.value = ''
@@ -112,7 +109,6 @@ function addParams(){
   }else{  
     params.value.push( `${encodeURIComponent(textareaList.value[0].option)}:%20${encodeURIComponent(textareaList.value[0].value)}` )
   }
-  console.log(textareaList.value)
   textareaList.value = []
   selectedValue.value = ''
 }
@@ -125,22 +121,23 @@ function generateUrl(){
   }
   
   let query = `query:(language:kuery,query:)`
-  let paramString = "'"
+  let paramString = ''
   
 
   params.value.map((data, index) => {
     if(index !== 0){
       paramString += encodeURIComponent(' OR ')
+    } else {
+      paramString += "'"
     }
     
-    paramString += data
+    paramString += '(' + data +')'
 
     if(index === params.value.length - 1) {
       paramString += "'"
     }
   })
   
-  //'%20log.message:%20%22FetchMediaInfoItem_TEST%22%20OR%20%20log.message:%20%22SET_MEDIA_INIT_INDEX_TEST%22'
   query = query.slice(0, query.indexOf(')')) + paramString + query.slice(query.indexOf(')'))
 
   url.value = url.value.replace('{index_id}', selectedIndexValue.value || '124b56e0-1c9b-11ee-a399-6f2a78896acd')
@@ -258,6 +255,7 @@ function generateUrl(){
           <div
             v-for="(param, index) in params"
             :key="param"  
+            class="parameterList"
           >
             <el-row  class="grid-content ep-bg-purple" > 
               <div> 
@@ -310,10 +308,18 @@ function generateUrl(){
   width: 50%;
 }
 
-.searchParameter .el-row, .generateUrl {
+.searchParameter {
+
   margin: 1rem;
-  font-weight: 400;
-  background-color: lightblue;
+  .parameterList {
+    margin: 1rem;
+    font-weight: 400;
+    background-color: lightblue;
+  }
+}
+
+.generateUrl {
+  margin: 1rem;
 }
 
 </style>
