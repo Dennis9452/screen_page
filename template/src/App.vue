@@ -3,6 +3,7 @@
   <p class="nav">
     <router-link to="/screenList"> screenList </router-link> 
     <router-link to="/playlistCompare"> playlistCompare </router-link>
+    <router-link to="/efkLog"> efkLog </router-link>
   </p>
   <router-view/>
 </template>

@@ -10,6 +10,11 @@ const routes = [
     path: '/playlistCompare',
     name: 'playlistCompare',
     component: () => import('../components/playlistCompare.vue')
+  },
+  {
+    path: '/efkLog',
+    name: 'efkLog',
+    component: () => import('../components/efkLog.vue')
   }
 ]
 

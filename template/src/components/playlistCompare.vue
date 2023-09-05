@@ -1,6 +1,6 @@
 <!-- eslint-disable no-unused-vars -->
 <script setup>
-    import { computed, ref } from 'vue'
+    import { computed, ref, watch } from 'vue'
 
     
     const playListInput = ref([])
@@ -9,8 +9,6 @@
     const playlistFileInput = ref('')
     const mediaTriggerFileInput = ref('')
 
-    const playlistFileContent = ref('')
-    const mediaTriggerFileContent = ref('')
 
     
     const compareOutput = ref([])
@@ -30,7 +28,17 @@
 
     const playListInputLength = computed(() => playListInput.value.length)
     const mediaTriggerInputLength = computed(() => mediaTriggerInput.value.length)
+    watch(playListInput,
+        (value) =>{
+            compare()
+        }
+    )
 
+    watch(mediaTriggerInput,
+        (value) =>{
+            compare()
+        }
+    )
 
     function compare(){
         let playListInputSorted = []
@@ -160,7 +168,7 @@
         </div>
         <div>
             <el-button 
-                @click="compare()"
+                @click="compare"
                 type="primary"    
             > Compare </el-button>
         </div>

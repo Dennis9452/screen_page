@@ -31,8 +31,18 @@ module.exports = defineConfig({
         pathRewrite: {
           '^/edgeReceive[0-9]*': '/edgeReceive'
         }
+      },
+      '^/office-edge/_search': {
+        target: 'http://172.16.51.115:9200',
+        changeOrigin: true,
+        headers: {
+          'origin': 'http://172.16.51.115:9200',
+          'Access-Control-Allow-Origin': '*',
+          'x-requested-with': 'XMLHttpRequest'
+        },
+        
       }
     }
   },
-  assetsDir: 'public-vue-edge-v1',
+  assetsDir: 'public-vue-edge-vv',
 })
