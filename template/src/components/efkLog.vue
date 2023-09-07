@@ -77,9 +77,9 @@ watch(
     Object.values(newValue).map((data) =>{
         textareaList.value.push({
           option: data,
-          value: ''
+          inputValue: '',
+          checkBoxValueValue: false
         })
-      
     })
 })
 
@@ -95,14 +95,17 @@ function clearParams(){
 function addParams(){
   if(!textareaList.value || !selectedValue.value) return 
 
-  if(textareaList.value.length > 1){
+  if(textareaList.value.length > 0){
     let queryText = ''
     textareaList.value.map((data, index) => {
       console.log(textareaList.value, selectedValue.value, data)
       if(index > 0) {
         queryText += `%20AND%20`
       }
-      queryText += `${encodeURIComponent(data.option)}:%20${encodeURIComponent(data.value)}` 
+      if(data.checkBoxValue){
+        queryText += `NOT%20`
+      }
+      queryText += `${encodeURIComponent(data.option)}:%20${encodeURIComponent(data.inputValue)}` 
 
     })
     params.value.push(queryText)
@@ -209,7 +212,6 @@ function generateUrl(){
           v-model="selectedValue" 
           placeholder="Select" 
           multiple
-          @change="test"
         >
           <el-option
             v-for="item in options"
@@ -221,13 +223,21 @@ function generateUrl(){
         <div
           v-for="(model, index) in textareaList"
           :key="model"
+          
         >
           <p> search for {{ model.option }} </p>
-          <el-input
-            v-model="model.value" 
-            :placeholder="'Input ' + (index + 1)"
-            class="textarea"
-          ></el-input> 
+          <div class="querySection">
+            <el-input
+              v-model="model.inputValue" 
+              :placeholder="'Input ' + (index + 1)"
+              class="textarea"
+            ></el-input> 
+            <el-checkbox 
+              v-model="model.checkBoxValue" 
+              label="Not" 
+              border
+            />
+          </div>
           
         </div>
         <el-button
@@ -320,6 +330,12 @@ function generateUrl(){
 
 .generateUrl {
   margin: 1rem;
+}
+
+.querySection{
+  display: flex;
+  align-items: center;
+
 }
 
 </style>
